@@ -5,6 +5,7 @@ const refs = {
 };
 
 refs.closeBtn.disabled = true;
+id = null;
 
 const onColorChange = () => {
   id = setInterval(() => {
