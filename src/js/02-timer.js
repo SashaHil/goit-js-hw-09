@@ -5,7 +5,6 @@ import Notiflix from 'notiflix';
 const refs = {
   dateChose: document.querySelector('#datetime-picker'),
   startBtn: document.querySelector('button[data-start]'),
-  time: document.querySelector('.timer'),
   daysValue: document.querySelector('span[data-days]'),
   hoursValue: document.querySelector('span[data-hours]'),
   minutesValue: document.querySelector('span[data-minutes]'),
@@ -31,22 +30,23 @@ const options = {
 
 flatpickr(refs.dateChose, options);
 
-const onChoseDate = () => {};
-
 const onStart = () => {
-  //   const startTime = Date.now();
-  setInterval(() => {
-    const currentTime = new Date();
-    // const deltaTime = currentTime - startTime;
-    const { days, hours, minutes, seconds } = convertMs(currentTime);
-    console.log(`${days}:${hours}:${minutes}:${seconds}`);
+  let timer = setInterval(() => {
+    let countdown = new Date(refs.dateChose.value) - new Date();
+
+    refs.startBtn.disabled = true;
+
+    if (countdown >= 0) {
+      let timeObject = convertMs(countdown);
+
+      refs.daysValue.textContent = addLeadingZero(timeObject.days);
+      refs.hoursValue.textContent = addLeadingZero(timeObject.hours);
+      refs.minutesValue.textContent = addLeadingZero(timeObject.minutes);
+      refs.secondsValue.textContent = addLeadingZero(timeObject.seconds);
+    } else {
+      clearInterval(timer);
+    }
   }, 1000);
-};
-
-const onTime = () => {};
-
-const addLeadingZero = value => {
-  return String(value).padStart(2, '0');
 };
 
 const convertMs = ms => {
@@ -55,15 +55,15 @@ const convertMs = ms => {
   const hour = minute * 60;
   const day = hour * 24;
 
-  const days = addLeadingZero(Math.floor(ms / day));
-  const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-  const seconds = addLeadingZero(
-    Math.floor((((ms % day) % hour) % minute) / second)
-  );
+  const days = Math.floor(ms / day);
+  const hours = Math.floor((ms % day) / hour);
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   return { days, hours, minutes, seconds };
 };
 
-refs.dateChose.addEventListener('click', onChoseDate);
+const addLeadingZero = value => {
+  return String(value).padStart(2, '0');
+};
+
 refs.startBtn.addEventListener('click', onStart);
-refs.time.addEventListener('click', onTime);
