@@ -22,9 +22,9 @@ const offColorChange = () => {
   refs.startBtn.disabled = false;
 };
 
-function getRandomHexColor() {
+const getRandomHexColor = () => {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
+};
 
 refs.startBtn.addEventListener('click', onColorChange);
 refs.closeBtn.addEventListener('click', offColorChange);
