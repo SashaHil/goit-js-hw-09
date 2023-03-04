@@ -31,7 +31,7 @@ const options = {
 flatpickr(refs.dateChose, options);
 
 const onStart = () => {
-  let timer = setInterval(() => {
+  let Timer = setInterval(() => {
     let countdown = new Date(refs.dateChose.value) - new Date();
 
     refs.startBtn.disabled = true;
@@ -44,7 +44,7 @@ const onStart = () => {
       refs.minutesValue.textContent = addLeadingZero(timeObject.minutes);
       refs.secondsValue.textContent = addLeadingZero(timeObject.seconds);
     } else {
-      clearInterval(timer);
+      clearInterval(Timer);
     }
   }, 1000);
 };
